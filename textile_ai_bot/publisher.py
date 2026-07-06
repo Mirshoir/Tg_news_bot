@@ -75,7 +75,7 @@ async def publish_pending(
 def _caption(text: str) -> str:
     if len(text) <= MAX_PHOTO_CAPTION_LENGTH:
         return text
-    source_marker = "\n🔗 <b>Source:</b>"
+    source_marker = "\n🔗 <b>Источник / Manba:</b>"
     source = ""
     body = text
     if source_marker in text:

@@ -38,13 +38,13 @@ class RankedArticle:
 
 @dataclass(slots=True)
 class IntelligenceBrief:
-    title_en: str
+    title_ru: str
     title_uz: str
-    summary_en: str
+    summary_ru: str
     summary_uz: str
-    highlights_en: list[str]
+    highlights_ru: list[str]
     highlights_uz: list[str]
-    why_it_matters_en: str
+    why_it_matters_ru: str
     why_it_matters_uz: str
-    milana_opportunity_en: str
+    milana_opportunity_ru: str
     milana_opportunity_uz: str

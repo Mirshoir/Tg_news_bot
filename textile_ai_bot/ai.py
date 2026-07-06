@@ -12,15 +12,15 @@ LOGGER = logging.getLogger(__name__)
 
 SYSTEM_INSTRUCTIONS = """
 You rewrite news for a Telegram channel.
-Write only the news itself in English and Uzbek.
+Write only the news itself in Russian and Uzbek.
 Keep it short, neutral, factual, and easy to read.
 Do not add analysis, business advice, "why it matters", opportunities, highlights, or explanations.
-Keep Uzbek natural, clear, and professional.
+Keep Russian and Uzbek natural, clear, and professional.
 Return only valid JSON with this shape:
 {
-  "title_en": "...",
+  "title_ru": "...",
   "title_uz": "...",
-  "summary_en": "...",
+  "summary_ru": "...",
   "summary_uz": "..."
 }
 """
@@ -58,15 +58,15 @@ Article excerpt:
 
 def _brief_from_payload(payload: dict, article: Article) -> IntelligenceBrief:
     return IntelligenceBrief(
-        title_en=str(payload.get("title_en") or article.title),
+        title_ru=str(payload.get("title_ru") or article.title),
         title_uz=str(payload.get("title_uz") or article.title),
-        summary_en=clean_text(str(payload.get("summary_en") or article.summary or article.title), limit=320),
+        summary_ru=clean_text(str(payload.get("summary_ru") or article.summary or article.title), limit=320),
         summary_uz=clean_text(str(payload.get("summary_uz") or article.summary or article.title), limit=320),
-        highlights_en=_list(payload.get("highlights_en")),
+        highlights_ru=_list(payload.get("highlights_ru")),
         highlights_uz=_list(payload.get("highlights_uz")),
-        why_it_matters_en="",
+        why_it_matters_ru="",
         why_it_matters_uz="",
-        milana_opportunity_en="",
+        milana_opportunity_ru="",
         milana_opportunity_uz="",
     )
 
@@ -80,14 +80,14 @@ def _list(value: object) -> list[str]:
 def fallback_brief(article: Article) -> IntelligenceBrief:
     short_summary = clean_text(article.summary or article.title, limit=500)
     return IntelligenceBrief(
-        title_en=article.title,
+        title_ru=article.title,
         title_uz=article.title,
-        summary_en=short_summary,
+        summary_ru=short_summary,
         summary_uz=short_summary,
-        highlights_en=[],
+        highlights_ru=[],
         highlights_uz=[],
-        why_it_matters_en="",
+        why_it_matters_ru="",
         why_it_matters_uz="",
-        milana_opportunity_en="",
+        milana_opportunity_ru="",
         milana_opportunity_uz="",
     )

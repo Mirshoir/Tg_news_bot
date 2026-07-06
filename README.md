@@ -1,10 +1,10 @@
 # AI & Textile Intelligence Telegram Bot
 
-Automated Telegram bot for bilingual Uzbek and English AI/textile intelligence updates for the Milana Premium AI Team.
+Automated Telegram bot for bilingual Russian and Uzbek AI/textile news updates for the Milana Premium AI Team.
 
 The bot collects trusted RSS/news sources, filters textile and AI topics, removes duplicate stories, ranks importance, optionally generates AI summaries, and publishes concise Telegram posts with:
 
-- English summary
+- Russian summary
 - Uzbek summary
 - key highlights
 - why it matters
