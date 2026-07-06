@@ -92,4 +92,4 @@ docker run --env-file .env -v "$PWD/data:/app/data" textile-ai-news-bot
 - OpenAI is optional. Without `OPENAI_API_KEY`, the bot still collects, ranks, deduplicates, and formats simple bilingual posts.
 - SQLite is used by default and can be migrated later to PostgreSQL if needed.
 - RSS failures are logged and skipped so one broken source does not block the briefing.
-- Set `POST_INTERVAL_MINUTES=60` to check and publish fresh AI-related news every hour. If it is `0`, the morning and afternoon schedule is used.
+- Set `POST_INTERVAL_MINUTES=30` to check and publish fresh AI-related news every 30 minutes. If it is `0`, the morning and afternoon schedule is used.

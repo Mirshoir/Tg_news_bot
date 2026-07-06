@@ -14,7 +14,7 @@ def telegram_post(article: Article, brief: IntelligenceBrief) -> str:
     return "\n".join(
         part
         for part in [
-            "🧵 <b>ИИ и текстиль | AI va tekstil</b>",
+            "<b>Milana news</b>",
             "",
             "🇷🇺 <b>Русский</b>",
             f"<b>{html.escape(title_ru)}</b>",
