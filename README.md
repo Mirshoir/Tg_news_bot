@@ -93,3 +93,4 @@ docker run --env-file .env -v "$PWD/data:/app/data" textile-ai-news-bot
 - SQLite is used by default and can be migrated later to PostgreSQL if needed.
 - RSS failures are logged and skipped so one broken source does not block the briefing.
 - Set `POST_INTERVAL_MINUTES=30` to check and publish fresh AI-related news every 30 minutes. If it is `0`, the morning and afternoon schedule is used.
+- `MIN_IMPORTANCE_SCORE=30` is recommended for automatic posting; higher values may collect news but stay quiet.

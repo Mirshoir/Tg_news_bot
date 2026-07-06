@@ -58,10 +58,12 @@ async def publish_pending(
 ) -> int:
     articles = await store.unposted(limit=max(limit * 20, 50), min_score=min_score)
     sent = 0
+    skipped = 0
     for article in articles:
         if not is_ai_related(article):
             LOGGER.info("Skipping non-AI article already in queue: %s", article.title)
             await store.mark_posted(article)
+            skipped += 1
             continue
         await publisher.publish(article, brief_generator)
         await store.mark_posted(article)
@@ -69,6 +71,12 @@ async def publish_pending(
         LOGGER.info("Published article: %s", article.title)
         if sent >= limit:
             break
+    if sent == 0:
+        LOGGER.info(
+            "No publishable articles sent. Checked %s queued articles, skipped %s non-AI articles.",
+            len(articles),
+            skipped,
+        )
     return sent
 
 
