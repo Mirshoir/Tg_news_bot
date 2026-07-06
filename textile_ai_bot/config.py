@@ -24,6 +24,8 @@ class Settings:
     max_daily_posts: int
     min_importance_score: int
     collection_lookback_hours: int
+    health_host: str
+    health_port: int
     admin_user_ids: frozenset[int]
 
     @property
@@ -57,5 +59,7 @@ def load_settings() -> Settings:
         max_daily_posts=int(os.getenv("MAX_DAILY_POSTS", "5")),
         min_importance_score=int(os.getenv("MIN_IMPORTANCE_SCORE", "55")),
         collection_lookback_hours=int(os.getenv("COLLECTION_LOOKBACK_HOURS", "48")),
+        health_host=os.getenv("HEALTH_HOST", "0.0.0.0"),
+        health_port=int(os.getenv("HEALTH_PORT", "8006")),
         admin_user_ids=frozenset(admin_ids),
     )

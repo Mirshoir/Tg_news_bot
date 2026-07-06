@@ -52,6 +52,12 @@ Run the scheduler and Telegram command bot:
 python -m textile_ai_bot.cli run
 ```
 
+Health check:
+
+```bash
+curl http://127.0.0.1:8006/health
+```
+
 If `/chatid` does not answer during setup, stop the bot with `Ctrl+C`, send any message in the group, then run:
 
 ```bash

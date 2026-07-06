@@ -11,6 +11,7 @@ from textile_ai_bot.collector import collect_articles
 from textile_ai_bot.config import load_settings
 from textile_ai_bot.dedupe import deduplicate_articles
 from textile_ai_bot.formatting import telegram_post
+from textile_ai_bot.health import HealthServer
 from textile_ai_bot.publisher import TelegramPublisher, _fetch_article_image, publish_pending
 from textile_ai_bot.ranker import is_ai_related, rank_articles
 from textile_ai_bot.scheduler import build_scheduler
@@ -117,9 +118,11 @@ async def async_main() -> None:
             scheduler = build_scheduler(settings, store, publisher, brief_generator)
         command_bot = CommandBot(settings, store, publisher, brief_generator)
         app = command_bot.build_application()
+        health_server = HealthServer(settings.health_host, settings.health_port)
 
         if scheduler:
             scheduler.start()
+        await health_server.start()
         await app.initialize()
         await app.start()
         await app.updater.start_polling()
@@ -133,6 +136,7 @@ async def async_main() -> None:
         await app.updater.stop()
         await app.stop()
         await app.shutdown()
+        await health_server.stop()
         if scheduler:
             scheduler.shutdown(wait=False)
 
