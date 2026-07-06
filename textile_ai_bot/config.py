@@ -21,6 +21,7 @@ class Settings:
     timezone: str
     morning_brief_time: str
     afternoon_update_time: str
+    post_interval_minutes: int
     max_daily_posts: int
     min_importance_score: int
     collection_lookback_hours: int
@@ -56,6 +57,7 @@ def load_settings() -> Settings:
         timezone=os.getenv("TIMEZONE", "Asia/Tashkent"),
         morning_brief_time=os.getenv("MORNING_BRIEF_TIME", "09:00"),
         afternoon_update_time=os.getenv("AFTERNOON_UPDATE_TIME", "15:30"),
+        post_interval_minutes=int(os.getenv("POST_INTERVAL_MINUTES", "0")),
         max_daily_posts=int(os.getenv("MAX_DAILY_POSTS", "5")),
         min_importance_score=int(os.getenv("MIN_IMPORTANCE_SCORE", "55")),
         collection_lookback_hours=int(os.getenv("COLLECTION_LOOKBACK_HOURS", "48")),

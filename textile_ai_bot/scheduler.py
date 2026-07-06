@@ -4,6 +4,7 @@ import logging
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 
 from textile_ai_bot.ai import BriefGenerator
 from textile_ai_bot.config import Settings
@@ -40,9 +41,18 @@ def build_scheduler(
             min_score=settings.min_importance_score,
         )
 
+    if settings.post_interval_minutes > 0:
+        scheduler.add_job(
+            briefing_job,
+            IntervalTrigger(minutes=settings.post_interval_minutes, timezone=settings.timezone),
+            id="interval_news_update",
+            replace_existing=True,
+        )
+        LOGGER.info("Scheduled news updates every %s minutes", settings.post_interval_minutes)
+        return scheduler
+
     morning_hour, morning_minute = _hour_minute(settings.morning_brief_time)
     afternoon_hour, afternoon_minute = _hour_minute(settings.afternoon_update_time)
-
     scheduler.add_job(
         briefing_job,
         CronTrigger(hour=morning_hour, minute=morning_minute, timezone=settings.timezone),
