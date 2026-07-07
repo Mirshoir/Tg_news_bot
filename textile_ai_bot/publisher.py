@@ -27,7 +27,8 @@ class TelegramPublisher:
     async def publish(self, article: Article, brief_generator: BriefGenerator) -> None:
         brief = await asyncio.to_thread(brief_generator.generate, article)
         text = telegram_post(article, brief)
-        image_url = article.image_url or await _fetch_article_image(article.url)
+        image_url = article.image_url if article.image_url.startswith(("http://", "https://")) else ""
+        image_url = image_url or await _fetch_article_image(article.url)
         if image_url:
             try:
                 await self.bot.send_photo(

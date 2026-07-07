@@ -15,6 +15,4 @@ DEFAULT_SOURCES: tuple[NewsSource, ...] = (
     NewsSource("NVIDIA AI Blog", "https://blogs.nvidia.com/feed/", "general_ai", 86),
     NewsSource("Microsoft AI Platform", "https://techcommunity.microsoft.com/t5/s/gxcuf89792/rss/board?board.id=AIPlatformBlog", "general_ai", 84),
     NewsSource("Hugging Face Blog", "https://huggingface.co/blog/feed.xml", "open_source", 82),
-    NewsSource("arXiv AI", "https://export.arxiv.org/rss/cs.AI", "research", 78),
-    NewsSource("arXiv CV", "https://export.arxiv.org/rss/cs.CV", "research", 80),
 )

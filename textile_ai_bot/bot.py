@@ -34,7 +34,6 @@ class CommandBot:
         app.add_handler(CommandHandler("today", self.today))
         app.add_handler(CommandHandler("week", self.week))
         app.add_handler(CommandHandler("textile", self.textile))
-        app.add_handler(CommandHandler("research", self.research))
         app.add_handler(CommandHandler("openai", self.openai))
         app.add_handler(CommandHandler("fashion", self.fashion))
         app.add_handler(CommandHandler("github", self.github))
@@ -60,9 +59,6 @@ class CommandBot:
 
     async def textile(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await self._category(update, "textile", "Textile | Tekstil")
-
-    async def research(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        await self._category(update, "research", "Research | Tadqiqot")
 
     async def fashion(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await self._category(update, "fashion", "Fashion Tech | Moda texnologiyasi")

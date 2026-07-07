@@ -69,7 +69,6 @@ python -m textile_ai_bot.cli chat-ids
 - `/today` - latest collected stories
 - `/week` - best stories from the last 7 days
 - `/textile` - textile and manufacturing updates
-- `/research` - research papers and technical posts
 - `/openai` - OpenAI-related updates
 - `/fashion` - fashion technology updates
 - `/github` - open-source AI updates

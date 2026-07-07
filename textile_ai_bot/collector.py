@@ -94,6 +94,7 @@ async def _fetch_source(client: httpx.AsyncClient, source: NewsSource) -> list[A
         link = str(entry.get("link", "")).strip()
         if not title or not link:
             continue
+        image_url = _entry_image_url(entry)
 
         articles.append(
             Article(
@@ -103,7 +104,7 @@ async def _fetch_source(client: httpx.AsyncClient, source: NewsSource) -> list[A
                 url=link,
                 category=source.category,
                 summary=_entry_summary(entry),
-                image_url=_entry_image_url(entry),
+                image_url=urljoin(link, image_url) if image_url else "",
                 published_at=_entry_datetime(entry),
                 raw=dict(entry),
             )

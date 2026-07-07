@@ -30,13 +30,11 @@ HIGH_SIGNAL_TERMS = {
     "ai merchandising": 20,
     "open source": 12,
     "model release": 14,
-    "research": 12,
 }
 
 CATEGORY_BOOSTS = {
     "textile": 28,
     "fashion": 20,
-    "research": 18,
     "open_source": 16,
     "general_ai": 10,
 }
@@ -100,8 +98,10 @@ def _keyword_hits(text: str) -> tuple[int, list[str]]:
 
 
 def is_ai_related(article: Article) -> bool:
+    if article.category == "research" or article.source_name.casefold().startswith("arxiv"):
+        return False
     text = f" {article.title} {article.summary} {article.source_name} ".casefold()
-    if article.category in {"general_ai", "open_source", "research"}:
+    if article.category in {"general_ai", "open_source"}:
         return True
     return any(term in text for term in AI_REQUIRED_TERMS) or bool(re.search(r"\bai(?:[-\s]|$)", text))
 
