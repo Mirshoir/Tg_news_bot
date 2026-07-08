@@ -25,6 +25,7 @@ Fill in `.env`:
 ```bash
 TELEGRAM_BOT_TOKEN=123456:telegram-token
 TELEGRAM_CHAT_ID=-1001234567890
+TELEGRAM_CHAT_IDS=-1001234567890,-1009876543210
 OPENAI_API_KEY=sk-...
 ```
 
@@ -93,3 +94,4 @@ docker run --env-file .env -v "$PWD/data:/app/data" textile-ai-news-bot
 - RSS failures are logged and skipped so one broken source does not block the briefing.
 - Set `POST_INTERVAL_MINUTES=30` to check and publish fresh AI-related news every 30 minutes. If it is `0`, the morning and afternoon schedule is used.
 - `MIN_IMPORTANCE_SCORE=30` is recommended for automatic posting; higher values may collect news but stay quiet.
+- Use `TELEGRAM_CHAT_IDS` for multiple groups/channels. `TELEGRAM_CHAT_ID` still works for a single chat.

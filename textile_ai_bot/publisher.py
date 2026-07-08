@@ -20,8 +20,11 @@ MAX_PHOTO_CAPTION_LENGTH = 1024
 
 
 class TelegramPublisher:
-    def __init__(self, token: str, chat_id: str) -> None:
-        self.chat_id = chat_id
+    def __init__(self, token: str, chat_ids: str | tuple[str, ...] | list[str]) -> None:
+        if isinstance(chat_ids, str):
+            self.chat_ids = (chat_ids,) if chat_ids else ()
+        else:
+            self.chat_ids = tuple(chat_id for chat_id in chat_ids if chat_id)
         self.bot = Bot(token=token)
 
     async def publish(self, article: Article, brief_generator: BriefGenerator) -> None:
@@ -29,10 +32,23 @@ class TelegramPublisher:
         text = telegram_post(article, brief)
         image_url = article.image_url if article.image_url.startswith(("http://", "https://")) else ""
         image_url = image_url or await _fetch_article_image(article.url)
+        sent = 0
+        errors: list[Exception] = []
+        for chat_id in self.chat_ids:
+            try:
+                await self._send_to_chat(chat_id, text, image_url)
+                sent += 1
+            except TelegramError as exc:
+                errors.append(exc)
+                LOGGER.warning("Failed to publish article to chat %s: %s", chat_id, exc)
+        if sent == 0 and errors:
+            raise errors[0]
+
+    async def _send_to_chat(self, chat_id: str, text: str, image_url: str) -> None:
         if image_url:
             try:
                 await self.bot.send_photo(
-                    chat_id=self.chat_id,
+                    chat_id=chat_id,
                     photo=image_url,
                     caption=_caption(text),
                     parse_mode="HTML",
@@ -42,7 +58,7 @@ class TelegramPublisher:
                 LOGGER.warning("Failed to send article photo, falling back to text: %s", exc)
 
         await self.bot.send_message(
-            chat_id=self.chat_id,
+            chat_id=chat_id,
             text=text,
             parse_mode="HTML",
             disable_web_page_preview=True,

@@ -15,6 +15,7 @@ def _csv(value: str) -> list[str]:
 class Settings:
     telegram_bot_token: str
     telegram_chat_id: str
+    telegram_chat_ids: tuple[str, ...]
     openai_api_key: str
     openai_model: str
     database_path: Path
@@ -35,7 +36,7 @@ class Settings:
 
     @property
     def telegram_enabled(self) -> bool:
-        return bool(self.telegram_bot_token and self.telegram_chat_id)
+        return bool(self.telegram_bot_token and self.telegram_chat_ids)
 
 
 def load_settings() -> Settings:
@@ -48,9 +49,15 @@ def load_settings() -> Settings:
         except ValueError:
             continue
 
+    chat_ids = tuple(_csv(os.getenv("TELEGRAM_CHAT_IDS", "")))
+    fallback_chat_id = os.getenv("TELEGRAM_CHAT_ID", "")
+    if not chat_ids and fallback_chat_id:
+        chat_ids = (fallback_chat_id,)
+
     return Settings(
         telegram_bot_token=os.getenv("TELEGRAM_BOT_TOKEN", ""),
-        telegram_chat_id=os.getenv("TELEGRAM_CHAT_ID", ""),
+        telegram_chat_id=fallback_chat_id,
+        telegram_chat_ids=chat_ids,
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         openai_model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
         database_path=Path(os.getenv("DATABASE_PATH", "./data/news_bot.sqlite3")),

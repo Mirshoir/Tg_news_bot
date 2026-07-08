@@ -62,9 +62,9 @@ async def async_main() -> None:
 
     if args.command == "post-once":
         if not settings.telegram_enabled:
-            raise SystemExit("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are required")
+            raise SystemExit("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID or TELEGRAM_CHAT_IDS are required")
         await collect_and_store(settings, store)
-        publisher = TelegramPublisher(settings.telegram_bot_token, settings.telegram_chat_id)
+        publisher = TelegramPublisher(settings.telegram_bot_token, settings.telegram_chat_ids)
         brief_generator = BriefGenerator(settings.openai_api_key, settings.openai_model)
         sent = await publish_pending(
             store,
@@ -111,10 +111,10 @@ async def async_main() -> None:
         if not settings.telegram_bot_token:
             raise SystemExit("TELEGRAM_BOT_TOKEN is required")
 
-        publisher = TelegramPublisher(settings.telegram_bot_token, settings.telegram_chat_id or "0")
+        publisher = TelegramPublisher(settings.telegram_bot_token, settings.telegram_chat_ids or ("0",))
         brief_generator = BriefGenerator(settings.openai_api_key, settings.openai_model)
         scheduler = None
-        if settings.telegram_chat_id:
+        if settings.telegram_chat_ids:
             scheduler = build_scheduler(settings, store, publisher, brief_generator)
         command_bot = CommandBot(settings, store, publisher, brief_generator)
         app = command_bot.build_application()
